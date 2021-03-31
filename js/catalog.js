@@ -7,11 +7,14 @@ const cart = new Cart([]);
 
 // On screen load, we call this method to put all of the busmall options
 // (the things in the Product.allProducts array) into the drop down list.
-function populateForm() {
-
+function populateForm() {       //solved
   //TODO: Add an <option> tag inside the form's select for each product
   const selectElement = document.getElementById('items');
   for (let i in Product.allProducts) {
+    const optionEl = document.createElement('option');
+    selectElement.appendChild(optionEl);
+    optionEl.value = Product.allProducts[i].name;
+    optionEl.textContent = Product.allProducts[i].name;
 
   }
 
@@ -23,7 +26,7 @@ function populateForm() {
 function handleSubmit(event) {
 
   // TODO: Prevent the page from reloading
-
+  event.preventDefault();
   // Do all the things ...
   addSelectedItemToCart();
   cart.saveToLocalStorage();
@@ -35,17 +38,33 @@ function handleSubmit(event) {
 // TODO: Add the selected item and quantity to the cart
 function addSelectedItemToCart() {
   // TODO: suss out the item picked from the select list
+  const itemSelected = document.getElementById('items').value;
   // TODO: get the quantity
+  const quantitySeclected = document.getElementById('quantity').value; 
   // TODO: using those, add one item to the Cart
+  cart.addItem(itemSelected,quantitySeclected);
+  // console.log(cart.items);
+  // console.log(cart.items.length);
 }
 
 // TODO: Update the cart count in the header nav with the number of items in the Cart
-function updateCounter() {}
+function updateCounter() {
+  const itemCountEl = document.getElementById('itemCount');
+  itemCountEl.textContent = `( ${cart.items.length} )`;
+}
 
 // TODO: As you add items into the cart, show them (item & quantity) in the cart preview div
 function updateCartPreview() {
   // TODO: Get the item and quantity from the form
   // TODO: Add a new element to the cartContents div with that information
+  const divEl = document.getElementById('cartContents')
+  const liEl = document.createElement('li');
+  divEl.appendChild(liEl);
+  // console.log(cart.items[i]);
+  liEl.textContent = cart.items[cart.items.length-1];
+  // console.log(cart.items.length);
+  // 
+  
 }
 
 // Set up the "submit" event listener on the form.
